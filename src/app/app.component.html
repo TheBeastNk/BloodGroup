@@ -1,0 +1,95 @@
+<div class="background">
+  <div style="text-align:center">
+      <h2 class="title">Blood Bank</h2>
+  </div>
+  <div class="bank-container">
+    <div class="box" *ngFor="let item of bloodContainerList; let index=index;">
+        <div class="large-box center-text" [ngClass]="requiredGroup && requiredGroups(item.groupName) ? greenColoredBox[index] ? 'background-green' : 'background-light-green' : '' ">
+          {{item.groupName}}
+        </div>
+        <div class="small-box center-text">{{item.count}}</div>
+    </div>
+  </div>
+<div class="width-50">
+  <h3>Fill Count of Individual Blood group</h3>
+  <form #formbldGroup="ngForm" name="formBld">
+    <div>
+        <label>Select Blood</label>
+        <select
+            required
+            name="bloodGroupName"
+            [ngModel]="selectedGroup"
+            (change)="onChangeGroup($event.target.value)"
+        >
+          <option
+            *ngFor="let item of bloodContainerList; let index=index;"
+            [value]="index"
+          >
+            {{item.groupName}}
+          </option>
+        </select>
+    </div>
+    <div style="margin-top: 20px">
+        <label>Count</label>
+        <input
+            required
+            min="0"
+            name="countVar"
+            type="number"
+            [(ngModel)]="count"
+        />
+    </div>
+        <div>
+        <button
+            class="button-submit"
+            type="submit"
+            (click)="onSubmitCount()"
+            [disabled]="formbldGroup.invalid && !selectedGroup"
+        >
+            Add Count
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="width-50">
+    <h3>REQUIREMENT FORM</h3>
+    <form #formreqGroup="ngForm" name="formBld">
+      <div>
+          <label>Blood Required</label>
+          <select
+              required
+              name="bloodGroupName"
+              [ngModel]="requiredGroup"
+              (change)="onselectRequiredCount($event.target.value)"
+          >
+            <option
+              *ngFor="let item of bloodContainerList; let index=index;"
+            >
+              {{item.groupName}}
+            </option>
+          </select>
+      </div>
+      <div style="margin-top: 20px">
+          <label>Number of Bottles</label>
+          <input
+              required
+              min="0"
+              name="countVar"
+              type="number"
+              [(ngModel)]="requiredCount"
+          />
+      </div>
+          <div>
+          <button
+              class="button-submit"
+              type="submit"
+              (click)="checkAvailability()"
+              [disabled]="formreqGroup.invalid && !requiredCount"
+          >
+              Check Availability
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
